@@ -21,6 +21,8 @@ namespace VectorWar {
 		[SerializeField] private Button startButton;
 
 		public static VectorWarInput vectorWarInput;
+
+		[SerializeField] private Rect GameArea;
 		
 		private readonly List<PlayerConfig> _playerConfigs = new List<PlayerConfig>();
 		private readonly KeyCode[] _fKeys = {
@@ -104,10 +106,10 @@ namespace VectorWar {
 					localPort,
 					numPlayers,
 					hostEndPoint,
-					Screen.safeArea.xMin,
-					Screen.safeArea.xMax,
-					Screen.safeArea.yMin,
-					Screen.safeArea.yMax
+					GameArea.xMin,
+					GameArea.xMax,
+					GameArea.yMin,
+					GameArea.yMax
 				);
 			} else {
 				Player[] players = new Player[GGPort.Types.MAX_SPECTATORS + GGPort.Types.MAX_PLAYERS];
@@ -148,10 +150,10 @@ namespace VectorWar {
 					players,
 					0 /*numSpectators*/,
 					ReadInputs,
-					Screen.safeArea.xMin,
-					Screen.safeArea.xMax,
-					Screen.safeArea.yMin,
-					Screen.safeArea.yMax
+					GameArea.xMin,
+					GameArea.xMax,
+					GameArea.yMin,
+					GameArea.yMax
 				);
 			}
 			

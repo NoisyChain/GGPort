@@ -10,16 +10,17 @@ namespace VectorWar {
 		[SerializeField] private MessageBox messageBox;
 		[SerializeField] private LogView logView;
 		[SerializeField] private GameObject shipPrefab;
-		[SerializeField] private Canvas gameCanvas;
+		[SerializeField] private GameObject gameParent;
 
 		private GameObject[] _visualShips;
 
 		private void Awake() {
+			Application.targetFrameRate = 60;
 			instance = this;
 
 			_visualShips = new GameObject[GameState.MAX_SHIPS];
 			for (int i = 0; i < _visualShips.Length; i++) {
-				_visualShips[i] = Instantiate(shipPrefab, gameCanvas.transform);
+				_visualShips[i] = Instantiate(shipPrefab, gameParent.transform);
 				_visualShips[i].SetActive(false);
 			}
 
