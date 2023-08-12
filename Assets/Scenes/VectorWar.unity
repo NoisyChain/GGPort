@@ -2817,7 +2817,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -300, y: 43}
+  m_AnchoredPosition: {x: -143, y: 43}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1581942561
@@ -3216,7 +3216,7 @@ MonoBehaviour:
   statusText: {fileID: 1228727164}
   messageBox: {fileID: 0}
   logView: {fileID: 543851418}
-  shipPrefab: {fileID: 4905419842764086878, guid: 3da1ff31b18d37549aef0eee6c3648a8,
+  shipPrefab: {fileID: 5665297473928344962, guid: 3da1ff31b18d37549aef0eee6c3648a8,
     type: 3}
   gameParent: {fileID: 1044104648}
 --- !u!1 &1819475548

@@ -180,6 +180,7 @@ namespace GGPort {
 
 		public void AddRemoteInput(int queue, ref GameInput input) {
 			_inputQueues[queue].AddInput(ref input);
+			VectorWar.VectorWar.SetRemoteFrame(input.frame);
 		}
 
 		public void CheckSimulation() {

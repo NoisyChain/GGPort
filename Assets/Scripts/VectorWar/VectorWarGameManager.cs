@@ -94,6 +94,8 @@ namespace VectorWar {
 			if (!_started) { return; }
 			
 			VectorWar.RunFrame();
+			titleText.text = VectorWar.GetCurrentFrame().ToString() + " | " + VectorWar.GetRemoteFrame().ToString() + 
+			"(" + VectorWar.GetFrameAdvantage().ToString() + ") || (" + VectorWar.GetPlayersInputs() + ")";
 		}
 
 		private void OnStartButton() {

@@ -26,6 +26,8 @@ namespace VectorWar {
 
 		private static Func<ShipInput> _readInputsFunc;
 
+		private static int _remoteFrameDebug;
+
 		[Flags]
 		public enum ShipInput : byte {
 			None = 0,
@@ -284,6 +286,24 @@ namespace VectorWar {
 			sum1 = (sum1 & 0xffff) + (sum1 >> 16);
 			sum2 = (sum2 & 0xffff) + (sum2 >> 16);
 			return (sum2 << 16) | sum1;
+		}
+
+		public static int GetCurrentFrame() => _gameState.frameNumber;
+
+		public static void SetRemoteFrame(int newFrame) => _remoteFrameDebug = newFrame;
+
+		public static int GetRemoteFrame() => _remoteFrameDebug;
+
+		public static int GetFrameAdvantage() => GetCurrentFrame() - GetRemoteFrame();
+
+		public static string GetPlayersInputs()
+		{
+			string constuctedString = " ";
+			for (int i = 0; i < _gameState.numShips; ++i)
+			{
+				constuctedString += (int)_syncedInputArray[i] + " ";
+			}
+			return constuctedString;
 		}
 
 		// The begin game callback.  We don't need to do anything special here, so just return true.
