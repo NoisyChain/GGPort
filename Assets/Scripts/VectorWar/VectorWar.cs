@@ -12,7 +12,7 @@ namespace VectorWar {
 	public static class VectorWar {
 		public static event LogTextDelegate logTextEvent;
 
-		private const int _FRAME_DELAY = 0;
+		private const int _FRAME_DELAY = 2;
 		private const int _MAX_PLAYERS = 64;
 		private const int _SIZE_OF_INPUT = sizeof(ShipInput);
 		private const int _FRAMES_PER_SECOND = 60;
@@ -22,9 +22,9 @@ namespace VectorWar {
 		private static Session<GameState> _session;
 		private static readonly byte[] _serializedSyncedInputArray = new byte[GameState.MAX_SHIPS * _SIZE_OF_INPUT];
 		private static readonly byte[] _serializedLocalInput = new byte[_SIZE_OF_INPUT];
-		private static readonly ShipInput[] _syncedInputArray = new ShipInput[GameState.MAX_SHIPS];
+		private static readonly int[] _syncedInputArray = new int[GameState.MAX_SHIPS];
 
-		private static Func<ShipInput> _readInputsFunc;
+		private static Func<int> _readInputsFunc;
 
 		private static int _remoteFrameDebug;
 
@@ -44,7 +44,7 @@ namespace VectorWar {
 			int numPlayers,
 			Player[] players,
 			int numSpectators,
-			Func<ShipInput> readInputsFunc,
+			Func<int> readInputsFunc,
 			float screenBoundsXMin,
 			float screenBoundsXMax,
 			float screenBoundsYMin,
@@ -170,7 +170,7 @@ namespace VectorWar {
 		private static void DrawCurrentFrame() { GameRenderer.instance.Draw(_gameState, _nonGameState); }
 
 		// Advances the game state by exactly 1 frame using the inputs specified for player 1 and player 2.
-		private static void AdvanceFrame(ShipInput[] inputs, int disconnectFlags) {
+		private static void AdvanceFrame(int[] inputs, int disconnectFlags) {
 			_gameState.Update(inputs, disconnectFlags);
 
 			// update the checksums to display in the top of the window.  this
@@ -217,7 +217,7 @@ namespace VectorWar {
 				result = _session.AddLocalInput(
 					_nonGameState.localPlayerHandle,
 					_serializedLocalInput,
-					sizeof(ShipInput)
+					_SIZE_OF_INPUT
 				); // NOTE hardcoding input type
 			}
 
@@ -365,13 +365,13 @@ namespace VectorWar {
 			return true;
 		}
 
-		private static ShipInput[] DeserializeShipInputs(byte[] serializedInputs) {
+		private static int[] DeserializeShipInputs(byte[] serializedInputs) {
 			for (int i = 0; i < _syncedInputArray.Length; i++) { _syncedInputArray[i] = 0; }
 
 			for (int i = 0; i < serializedInputs.Length; i++) {
 				// ER TODO generalize for ship input size in bytes, this is done only because synchronize inputs doesn't
 				// handle non primitive arrays, see VectorWar::OnAdvanceFrame
-				_syncedInputArray[i] = (ShipInput) serializedInputs[i];
+				_syncedInputArray[i] = serializedInputs[i];
 			}
 
 			return _syncedInputArray;
@@ -436,4 +436,15 @@ namespace VectorWar {
 			//free(buffer); // NOTE nothing for managed lang, though could prove useful nonetheless.
 		}
 	}
+}
+
+public struct ShipInput
+{
+	public const int None = 0;
+	public const int Thrust = 1 << 0;
+	public const int Brake = 1 << 1;
+	public const int CounterClockwise = 1 << 2;
+	public const int Clockwise = 1 << 3;
+	public const int Fire = 1 << 4;
+	public const int Bomb = 1 << 5;
 }

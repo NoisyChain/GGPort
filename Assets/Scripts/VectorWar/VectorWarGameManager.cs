@@ -191,13 +191,26 @@ namespace VectorWar {
 			}
 		}
 		
-		private static VectorWar.ShipInput ReadInputs() {
-			VectorWar.ShipInput inputs = VectorWar.ShipInput.None;
+		private static int ReadInputs() {
+			int inputs = ShipInput.None;
 			
-			InputActionMap shipBattleActionMap = VectorWarGameManager.vectorWarInput.ShipBattleMap.Get();
-			for (int i = 0; i < shipBattleActionMap.actions.Count; i++) {
-				inputs |= (VectorWar.ShipInput) ((int) shipBattleActionMap.actions[i].ReadValue<float>() << i);
-			}
+			if (vectorWarInput.ShipBattleMap.Thrust.IsInProgress())
+				inputs |= ShipInput.Thrust;
+
+			if (vectorWarInput.ShipBattleMap.Brake.IsInProgress())
+				inputs |= ShipInput.Brake;
+			
+			if (vectorWarInput.ShipBattleMap.Clockwise.IsInProgress())
+				inputs |= ShipInput.Clockwise;
+
+			if (vectorWarInput.ShipBattleMap.CounterClockwise.IsInProgress())
+				inputs |= ShipInput.CounterClockwise;
+
+			if (vectorWarInput.ShipBattleMap.Fire.IsInProgress())
+				inputs |= ShipInput.Fire;
+
+			if (vectorWarInput.ShipBattleMap.Bomb.IsInProgress())
+				inputs |= ShipInput.Bomb;
 			
 			return inputs;
 		}

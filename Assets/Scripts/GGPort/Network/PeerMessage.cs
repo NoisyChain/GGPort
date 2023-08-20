@@ -8,6 +8,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
+using System.IO;
 
 namespace GGPort {
 	// TODO separate out into smaller derived classes, this used to be a union.
@@ -69,6 +70,83 @@ namespace GGPort {
 		public struct QualityReply {
 			public long pong;
 		}
+
+		/*public unsafe struct Input {
+			public int startFrame;
+			public bool disconnectRequested;
+			public int ackFrame;
+			public ushort numBits;
+			public byte inputSize; // XXX: shouldn't be in every single packet!
+
+			private fixed bool _peerDisconnectedFlags[MAX_PLAYERS];
+			private fixed int _peerLastFrames[MAX_PLAYERS];
+			public fixed byte bits[MAX_COMPRESSED_BITS];
+
+			public Input(BinaryReader reader)
+			{
+				startFrame = reader.Read();
+				disconnectRequested = reader.ReadBoolean();
+				ackFrame = reader.Read();
+				numBits = reader.ReadUInt16();
+				inputSize = reader.ReadByte();
+
+				for (int a = 0; a < MAX_PLAYERS; ++a)
+				{
+					_peerDisconnectedFlags[a] = reader.ReadBoolean();
+					_peerLastFrames[a] = reader.Read();
+				}
+				for (int b = 0; b < MAX_COMPRESSED_BITS; ++b)
+					bits[MAX_COMPRESSED_BITS] = reader.ReadByte();
+			}
+
+			public void SetPeerConnectStatus(int index, ConnectStatus peerConnectStatus) {
+				_peerDisconnectedFlags[index] = peerConnectStatus.isDisconnected;
+				_peerLastFrames[index] = peerConnectStatus.lastFrame;
+			}
+
+			public void GetConnectStatuses(ref ConnectStatus[] connectStatuses) {
+				for (int i = 0; i < MAX_PLAYERS; i++) {
+					connectStatuses[i] = new ConnectStatus {
+						isDisconnected = _peerDisconnectedFlags[i],
+						lastFrame = _peerLastFrames[i]
+					};
+				}
+			}
+
+			public void Serialize(BinaryWriter writer)
+			{
+				writer.Write(startFrame);
+				writer.Write(disconnectRequested);
+				writer.Write(ackFrame);
+				writer.Write(numBits);
+				writer.Write(inputSize);
+
+				for (int a = 0; a < MAX_PLAYERS; ++a)
+				{
+					writer.Write(_peerDisconnectedFlags[a]);
+					writer.Write(_peerLastFrames[a]);
+				}
+				for (int b = 0; b < MAX_COMPRESSED_BITS; ++b)
+					writer.Write(bits[MAX_COMPRESSED_BITS]);
+			}
+
+			public void Deserialize(BinaryReader reader)
+			{
+				startFrame = reader.Read();
+				disconnectRequested = reader.ReadBoolean();
+				ackFrame = reader.Read();
+				numBits = reader.ReadUInt16();
+				inputSize = reader.ReadByte();
+
+				for (int a = 0; a < MAX_PLAYERS; ++a)
+				{
+					_peerDisconnectedFlags[a] = reader.ReadBoolean();
+					_peerLastFrames[a] = reader.Read();
+				}
+				for (int b = 0; b < MAX_COMPRESSED_BITS; ++b)
+					bits[MAX_COMPRESSED_BITS] = reader.ReadByte();
+			}
+		}*/
 
 		[Serializable]
 		public unsafe struct Input : ISerializable {
